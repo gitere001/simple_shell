@@ -12,6 +12,6 @@
 void prompt_display(void);
 void ss_print(const char *input);
 void read_user_command(char *user_command, size_t size);
-void tokenize_command(const char *user_command, const char *args[]);
+const char *find_command_path(const char *command);
 void execute_command(const char *user_command);
 #endif

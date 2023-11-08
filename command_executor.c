@@ -8,10 +8,11 @@
  */
 void execute_command(const char *user_command)
 {
-	const char *args[MAX_ARGS];
-	pid_t child_id = fork();
-
+	const char *command = user_command;
+	char *args[MAX_ARGS];
 	size_t num_args = 0;
+	pid_t child_id;
+
 	char *token = strtok(strdup(user_command), " ");
 
 	while (token != NULL && num_args < MAX_ARGS - 1)
@@ -19,8 +20,30 @@ void execute_command(const char *user_command)
 		args[num_args++] = token;
 		token = strtok(NULL, " ");
 	}
-
 	args[num_args] = NULL;
+
+	if (strchr(args[0], '/'))
+	{
+		command = args[0];
+	}
+	else
+	{
+		const char *full_path = find_command_path(args[0]);
+
+		if (full_path != NULL)
+		{
+			command = full_path;
+		}
+		else
+		{
+			ss_print("Command not found: ");
+			ss_print(args[0]);
+			ss_print("\n");
+			return;
+		}
+	}
+
+	child_id = fork();
 
 	if (child_id == -1)
 	{
@@ -29,24 +52,14 @@ void execute_command(const char *user_command)
 	}
 	else if (child_id == 0)
 	{
-		const char *full_path = find_command_path(args[0]);
-
-		if (full_path != NULL)
-		{
-			execve(full_path, (char *const *)args, NULL);
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			ss_print("Command not found: ");
-			ss_print(args[0]);
-			ss_print("\n");
-			exit(EXIT_FAILURE);
-		}
+		execve(command, args, NULL);
+		perror("execve");
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		wait(NULL);
 	}
+
+	free(args[0]);
 }

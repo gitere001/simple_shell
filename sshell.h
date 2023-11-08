@@ -11,6 +11,7 @@
 extern char **environ;
 
 void prompt_display(void);
+void handle_exit_command(const char *command);
 void ss_print(const char *input);
 void read_user_command(char *user_command, size_t size);
 const char *find_command_path(const char *command);

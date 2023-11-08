@@ -16,7 +16,14 @@ int main(void)
 		{
 			break;
 		}
+		else if (strcmp(user_command, "env") == 0)
+ 		{
+		print_environment();
+ 		}
+		else
+		{
 		execute_command(user_command);
+		}
 	}
 
 	return (0);

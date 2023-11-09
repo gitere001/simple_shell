@@ -18,4 +18,5 @@ void read_user_command(char *user_command, size_t size);
 const char *find_command_path(const char *command);
 void execute_command(const char *user_command);
 void print_environment(void);
+void clear_command(void);
 #endif

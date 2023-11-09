@@ -5,7 +5,8 @@
  * and execute it in a child process.
  * @user_command: The user-provided command to execute.
  * Return: void
- */
+*/
+
 void execute_command(const char *user_command)
 {
 	const char *command = user_command;
@@ -13,7 +14,9 @@ void execute_command(const char *user_command)
 	size_t num_args = 0;
 	pid_t child_id;
 
-	char *token = strtok(strdup(user_command), " ");
+	char *user_command_copy = strdup(user_command);
+
+	char *token = strtok(user_command_copy, " ");
 
 	while (token != NULL && num_args < MAX_ARGS - 1)
 	{
@@ -21,6 +24,13 @@ void execute_command(const char *user_command)
 		token = strtok(NULL, " ");
 	}
 	args[num_args] = NULL;
+
+	if (num_args == 0)
+	{
+
+		free(user_command_copy);
+		return;
+	}
 
 	if (strchr(args[0], '/'))
 	{
@@ -32,13 +42,14 @@ void execute_command(const char *user_command)
 
 		if (full_path != NULL)
 		{
-			command = full_path;
+		command = full_path;
 		}
 		else
 		{
 			ss_print("Command not found: ");
 			ss_print(args[0]);
 			ss_print("\n");
+			free(user_command_copy);
 			return;
 		}
 	}
@@ -61,5 +72,5 @@ void execute_command(const char *user_command)
 		wait(NULL);
 	}
 
-	free(args[0]);
+	free(user_command_copy);
 }

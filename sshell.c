@@ -6,27 +6,17 @@
  */
 int main(void)
 {
-	char *user_command = NULL;
-	size_t user_command_size = 0;
+	char user_command[150];
 
 	while (1)
 	{
 		prompt_display();
-		if (getline(&user_command, &user_command_size, stdin) == -1)
-		{
+		read_user_command(user_command, sizeof(user_command));
 
-			break;
-		}
-
-		if (user_command[strlen(user_command) - 1] == '\n')
-		{
-			user_command[strlen(user_command) - 1] = '\0';
-		}
-			handle_exit_command(user_command);
+		handle_exit_command(user_command);
 
 		if (strcmp(user_command, "exit") == 0)
 		{
-			free(user_command);
 			break;
 		}
 		else if (strcmp(user_command, "env") == 0)
@@ -39,6 +29,5 @@ int main(void)
 		}
 	}
 
-	free(user_command);
 	return (0);
 }

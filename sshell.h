@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <ctype.h>
 
 #define MAX_ARGS 100
 extern char **environ;

@@ -5,7 +5,7 @@
  * and execute it in a child process.
  * @user_command: The user-provided command to execute.
  * Return: void
-*/
+ */
 
 void execute_command(const char *user_command)
 {
@@ -27,7 +27,14 @@ void execute_command(const char *user_command)
 
 	if (num_args == 0)
 	{
+		free(user_command_copy);
+		return;
+	}
 
+	if (strcmp(args[0], "clear") == 0)
+	{
+		setenv("TERM", "xterm-256color", 1);
+		clear_command();
 		free(user_command_copy);
 		return;
 	}
@@ -42,7 +49,7 @@ void execute_command(const char *user_command)
 
 		if (full_path != NULL)
 		{
-		command = full_path;
+			command = full_path;
 		}
 		else
 		{

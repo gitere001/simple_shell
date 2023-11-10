@@ -19,4 +19,6 @@ const char *find_command_path(const char *command);
 void execute_command(const char *user_command);
 void print_environment(void);
 void clear_command(void);
+void cd_command(const char *user_command);
+
 #endif

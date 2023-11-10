@@ -7,6 +7,5 @@
 */
 void prompt_display(void)
 {
-	ss_print("our shell$ ");
+	ss_print("simple shell$ ");
 }
-

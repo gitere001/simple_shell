@@ -30,7 +30,12 @@ void execute_command(const char *user_command)
 		free(user_command_copy);
 		return;
 	}
-
+	if (strcmp(args[0], "cd") == 0)
+	{
+		cd_command(user_command);
+		free(user_command_copy);
+		return;
+	}
 	if (strcmp(args[0], "clear") == 0)
 	{
 		setenv("TERM", "xterm-256color", 1);

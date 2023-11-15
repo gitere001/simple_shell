@@ -8,4 +8,5 @@
 void prompt_display(void)
 {
 	ss_print("simple shell$ ");
+	fflush(stdout);
 }

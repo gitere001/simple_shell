@@ -1,54 +1,54 @@
 #include "sshell.h"
 
 /**
- * execute - Execute a command without arguments.
- * @command: The command to be executed.
+ * execute - Execute a command arguments.
+ * @argv: the string containing command plusn arguments
  *
  * Return: The exit status of the executed command.
  */
-int execute(char *command)
+int execute(char **argv)
 {
-	pid_t id;
-	int status = 0;
+	pid_t child_id;
+	int result = 0;
+	char *command_path, *envcp[2];
 
-	if (command == NULL)
-		return (status);
+	if (argv == NULL || *argv == NULL)
+		return (result);
+	if (check_buildins(argv))
+		return (result);
 
-	id = fork();
-	if (id < 0)
+	child_id = fork();
+	if (child_id < 0)
 	{
-		perror("fork");
+		_printerror("fork");
 		return (1);
 	}
 
-	if (id == 0)
+	if (child_id == -1)
+		perror(argv[0]), free_tokens(argv), free_last_command();
+	if (child_id == 0)
 	{
-		char **args = malloc(2 * sizeof(char *));
-
-		if (args == NULL)
+		envcp[0] = get_command_path();
+		envcp[1] = NULL;
+		command_path = NULL;
+		if (argv[0][0] != '/')
+			command_path = search_command_in_path(argv[0]);
+		if (command_path == NULL)
+			command_path = argv[0];
+		if (execve(command_path, argv, envcp) == -1)
 		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
-
-		args[0] = command;
-		args[1] = NULL;
-
-		if (execve(command, args, NULL) == -1)
-		{
-			perror("execve");
-			free(args);
+			perror(argv[0]), free_tokens(argv), free_last_command();
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		do
 
-		{
-			waitpid(id, &status, 0);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	do
+	{
+    waitpid(child_id, &result, WUNTRACED);
+	}while (!WIFEXITED(result) && !WIFSIGNALED(result));
 	}
 
-	return (status);
-}
+	return (result);
+ }

@@ -7,21 +7,30 @@
  */
 int main(void)
 {
-	char *input;
-	int status;
+	char *command;
+	char **arguments;
+	int result;
 
 	do {
-		input = read_input();
+		command = read_input();
 
-		if (!input || *input == '\0')
+		if (!command || *command == '\0')
 			break;
 
-		status = execute(input);
+		arguments = tokenize_input(command);
+		if (!arguments || !*arguments)
+		{
+			free(command);
+			free_tokens(arguments);
+			continue;
+		}
 
-		free_last_command();
-		free(input);
+		result = execute(arguments);
+		free(command);
+		free_tokens(arguments);
 
-	} while (status);
+		result = 1;
+	} while (result);
 
 	return (EXIT_SUCCESS);
 }

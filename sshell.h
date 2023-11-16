@@ -14,6 +14,13 @@
 #include <stdarg.h>
 #include <ctype.h>
 
+
+extern char **environ;
+
+#define BUFFER_SIZE 1024
+#define PATH_BUFFER_SIZE 4095
+#define PATH_SEPARATOR ":"
+
 /*prompt_display.c*/
 void prompt_display(void);
 
@@ -21,8 +28,40 @@ void prompt_display(void);
 char *read_input(void);
 void free_last_command(void);
 
+/*buildins functions*/
+int check_buildins(char **args);
+void _cd(char **args);
+int _clear(char **args);
+int _env(void);
+void _exit1(char **args);
+void _help(void);
+int _setenv(char **args);
+int _unsetenv(char **args);
+
+
+/*sshell_free.c*/
+void free_err(char **args_array, char *error_message);
+void free_tokens(char **pt);
+void free_path(void);
+
+/*sshell_getenv.c*/
+char *custom_getenv(const char *env_var);
+
+/*get_command_path.c*/
+char *get_command_path(void);
+
+/*search_path.c*/
+char *search_command_in_path(char *target_command);
+
+/*sshell_getline.c*/
+void *custom_getline(void);
+
 /*command_executor.c*/
-int execute(char *command);
+int execute(char **argv);
+
+/*parsing.c*/
+char **tokenize(char *inputString, const char *delimiter);
+char **tokenize_input(char *user_input);
 
 /*ss_print*/
 void ss_print(char *str);

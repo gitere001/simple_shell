@@ -1,8 +1,8 @@
 #include "sshell.h"
 
 /**
- * print_environment - Prints the current environment.
- * Return: void
+ * print_environment - Prints the current environment
+ * Return: void.
  */
 void print_environment(void)
 {

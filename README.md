@@ -1,4 +1,4 @@
-Simple Shell
+Simple Shell.
 
 A Basic Unix-Like Shell Implementation
 

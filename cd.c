@@ -2,7 +2,7 @@
 
 /**
  * cd_command - Change current directory.
- * Command syntax: cd [DIRECTORY]
+ * Command syntax: cd [DIRECTORY].
  * Handles cd with or without argument,
  * interpreting cd - as cd $HOME.
  * @user_command: User command.

@@ -1,6 +1,6 @@
 #include "sshell.h"
 /**
- * clear_command - Clears the terminal screen.
+ * clear_command - Clears the terminal screen
  */
 void clear_command(void)
 {

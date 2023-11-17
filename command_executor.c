@@ -14,7 +14,7 @@ void execute_command(const char *user_command)
 	size_t num_args = 0;
 	pid_t child_id;
 
-	char *user_command_copy = strdup(user_command);
+	char *user_command_copy = _strdup(user_command);
 
 	char *token = strtok(user_command_copy, " ");
 
@@ -30,21 +30,21 @@ void execute_command(const char *user_command)
 		free(user_command_copy);
 		return;
 	}
-	if (strcmp(args[0], "cd") == 0)
+	if (_strcmp(args[0], "cd") == 0)
 	{
 		cd_command(user_command);
 		free(user_command_copy);
 		return;
 	}
-	if (strcmp(args[0], "clear") == 0)
+	if (_strcmp(args[0], "clear") == 0)
 	{
-		setenv("TERM", "xterm-256color", 1);
+		_setenv("TERM", "xterm-256color", 1);
 		clear_command();
 		free(user_command_copy);
 		return;
 	}
 
-	if (strchr(args[0], '/'))
+	if (_strchr(args[0], '/'))
 	{
 		command = args[0];
 	}

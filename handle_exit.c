@@ -3,7 +3,7 @@
 /**
  * handle_exit_command- command with an optional status.
  * If no status is provided, it defaults to 0.
- * Usage: exit [status]
+ * Usage: exit [status].
  * @command: user command
  * Return: void
  */

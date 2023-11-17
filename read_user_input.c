@@ -21,5 +21,5 @@ void read_user_command(char *user_command, size_t size)
 			exit(EXIT_FAILURE);
 		}
 	}
-	user_command[strcspn(user_command, "\n")] = '\0';
+	user_command[_strcspn(user_command, "\n")] = '\0';
 }

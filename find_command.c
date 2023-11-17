@@ -1,6 +1,6 @@
 #include "sshell.h"
 /**
- * find_command_path - finds the path of the executable file in
+ * find_command_path - finds the path of the executable file in.
  * the and directories
  * @command: users commands
  * Return: strdup(full_path) and null if no path is found

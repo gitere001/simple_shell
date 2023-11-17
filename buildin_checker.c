@@ -1,8 +1,7 @@
 #include "sshell.h"
 
 /**
-* check_buildins(char **args)
-
+* check_buildins - check for buildins functions
 * @args: command arguments
 *
 * Return: 0 if command is not builtin

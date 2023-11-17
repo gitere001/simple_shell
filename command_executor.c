@@ -45,10 +45,12 @@ int execute(char **argv)
 	{
 
 	do
+
 	{
-    waitpid(child_id, &result, WUNTRACED);
-	}while (!WIFEXITED(result) && !WIFSIGNALED(result));
+		waitpid(child_id, &result, WUNTRACED);
+	} while (!WIFEXITED(result) && !WIFSIGNALED(result));
+
 	}
 
 	return (result);
- }
+}

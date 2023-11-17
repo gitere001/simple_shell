@@ -35,7 +35,7 @@ char *search_command_in_path(char *target_command)
 		_strcat(buffer, target_command);
 
 		stat_r = stat(buffer, &fstat);
-        if (stat_r == 0 && S_ISREG(fstat.st_mode) && (fstat.st_mode & S_IXUSR))
+		if (stat_r == 0 && S_ISREG(fstat.st_mode) && (fstat.st_mode & S_IXUSR))
 		{
 			free_tokens(path_tokens);
 			result_path = malloc(sizeof(char) * (strlen(buffer) + 1));

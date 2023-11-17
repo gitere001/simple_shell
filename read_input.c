@@ -3,14 +3,14 @@
 static char *last_input;
 
 /**
- * read_input - Reads users input.
- * Return: Pointer to where the user's input is stored.
- */
+* read_input - Reads users input.
+* Return: Pointer to where the user's input is stored.
+*/
 char *read_input(void)
 {
 	size_t command_size = 0;
 	ssize_t bytes_read;
-	char *command;
+	char *command = NULL;
 
 	prompt_display();
 
@@ -28,17 +28,19 @@ char *read_input(void)
 
 		command[bytes_read - 1] = '\0';
 
-	} while (command[0] == '\0' || isspace(command[0]));
+	} while (command == NULL ||
+			command[0] == '\0' ||
+			isspace(command[0]) ||
+			command_size == 0);
 
-	last_input = command;
+	last_input = _strdup(command);
 	return (command);
 }
-
 /**
- * free_last_command - Frees the recent user's command.
- * Frees memory allocated to the recent command.
- * Return: void
- */
+* free_last_command - Frees the recent user's command.
+* Frees memory allocated to the recent command.
+* Return: void
+*/
 void free_last_command(void)
 {
 	if (last_input != NULL)

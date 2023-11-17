@@ -52,12 +52,16 @@ char *get_command_path(void);
 
 /*search_path.c*/
 char *search_command_in_path(char *target_command);
+char *search_in_path_tokens(char *target_command, char **path_tokens);
 
 /*sshell_getline.c*/
 void *custom_getline(void);
 
 /*command_executor.c*/
 int execute(char **argv);
+int execute_child(char **argv);
+void wait_for_child(pid_t child_id, int *result);
+char *determine_command_path(char *command);
 
 /*parsing.c*/
 char **tokenize(char *inputString, const char *delimiter);

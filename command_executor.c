@@ -1,10 +1,10 @@
 #include "sshell.h"
 
 /**
- * execute_command - Tokenize the user input, find the command path,
+ * execute_command - Tokenize the user input, find the command path.
  * and execute it in a child process.
  * @user_command: The user-provided command to execute.
- * Return: void
+ * Return: void.
  */
 
 void execute_command(const char *user_command)
@@ -38,7 +38,7 @@ void execute_command(const char *user_command)
 	}
 	if (_strcmp(args[0], "clear") == 0)
 	{
-		_setenv("TERM", "xterm-256color", 1);
+		setenv("TERM", "xterm-256color", 1);
 		clear_command();
 		free(user_command_copy);
 		return;

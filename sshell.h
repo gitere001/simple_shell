@@ -20,6 +20,10 @@ void execute_command(const char *user_command);
 void print_environment(void);
 void clear_command(void);
 void cd_command(const char *user_command);
+size_t tokenize_user_input(const char *user_command, char *args[]);
+int execute_builtin_commands(char *args[], const char *user_command);
+void execute_external_command(const char *command, char *args[]);
+
 /*string_operation1*/
 size_t _strlen(const char *str);
 int _strcmp(const char *str1, const char *str2);
@@ -40,6 +44,7 @@ char *_memset(char *a, char bytes, unsigned int b);
 char *_memcpy(char *des, char *source, unsigned int bytes);
 void *_realloc(void *pt, unsigned int p_size, unsigned int n_size);
 void *_calloc(unsigned int nmemb, unsigned int size);
+size_t _strcspn(const char *str, const char *reject);
 
 
 #endif

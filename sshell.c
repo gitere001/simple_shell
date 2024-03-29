@@ -1,33 +1,44 @@
-#include "sshell.h"
+#include "main.h"
 
 /**
- * main - entry point
- * Return: 0 for success.
+ * cd_shell - changes current directory
+ *
+ * @datash: data relevant
+ * Return: 1 on success
  */
-int main(void)
+int cd_shell(data_shell *datash)
 {
-	char user_command[150];
+	char *dir;
+	int ishome, ishome2, isddash;
 
-	while (1)
+	dir = datash->args[1];
+
+	if (dir != NULL)
 	{
-		prompt_display();
-		read_user_command(user_command, sizeof(user_command));
-
-		handle_exit_command(user_command);
-
-		if (strcmp(user_command, "exit") == 0)
-		{
-			break;
-		}
-		else if (strcmp(user_command, "env") == 0)
-		{
-			print_environment();
-		}
-		else
-		{
-			execute_command(user_command);
-		}
+		ishome = _strcmp("$HOME", dir);
+		ishome2 = _strcmp("~", dir);
+		isddash = _strcmp("--", dir);
 	}
 
-	return (0);
+	if (dir == NULL || !ishome || !ishome2 || !isddash)
+	{
+		cd_to_home(datash);
+		return (1);
+	}
+
+	if (_strcmp("-", dir) == 0)
+	{
+		cd_previous(datash);
+		return (1);
+	}
+
+	if (_strcmp(".", dir) == 0 || _strcmp("..", dir) == 0)
+	{
+		cd_dot(datash);
+		return (1);
+	}
+
+	cd_to(datash);
+
+	return (1);
 }

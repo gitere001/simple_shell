@@ -1,114 +1,106 @@
-#include "sshell.h"
+#include "main.h"
 
 /**
- * _strlen - Calculate the length of a string
- * @str: The input string
- * Return: The length of the string
+ * _strcat - concatenate two strings
+ * @dest: char pointer the dest of the copied str
+ * @src: const char pointer the source of str
+ * Return: the dest
  */
-size_t _strlen(const char *str)
+char *_strcat(char *dest, const char *src)
 {
-	size_t len = 0;
+	int i;
+	int j;
 
-	while (str[len] != '\0')
+	for (i = 0; dest[i] != '\0'; i++)
+		;
+
+	for (j = 0; src[j] != '\0'; j++)
 	{
-	len++;
+		dest[i] = src[j];
+		i++;
 	}
 
-	return (len);
+	dest[i] = '\0';
+	return (dest);
 }
 /**
- * _strcmp - a function that compares 2 strings
- * @str1: first string.
- * @str2: second string to be compared to first one.
- * Return: when s1 and s2 are equal returns 0.
- * negative value whenever str1 < str2.
- * positive whenever str1 > str2.
-*/
-int _strcmp(const char *str1, const char *str2)
+ * *_strcpy - Copies the string pointed to by src.
+ * @dest: Type char pointer the dest of the copied str
+ * @src: Type char pointer the source of str
+ * Return: the dest.
+ */
+char *_strcpy(char *dest, char *src)
 {
-	while (*str1 != '\0' && *str2 != '\0' && *str1 == *str2)
+
+	size_t a;
+
+	for (a = 0; src[a] != '\0'; a++)
 	{
-		str1++;
-		str2++;
+		dest[a] = src[a];
 	}
-	return ((int) (*str1) - (*str2));
+	dest[a] = '\0';
+
+	return (dest);
 }
 /**
- * _strncmp - this function compares strings upto n lenth.
- * @str1: the first string.
- * @str2: second string to be compared to first.
- * @n: max characters to be comapare.
- * Return: 0 whenever string are equal up to n.
- * negative value when str1 is less than str2
- * positive value when str1 is greater than str2
- * If both strings are shorter than n and are equal, returns 0.
-*/
-int _strncmp(const char *str1, const char *str2, size_t n)
+ * _strcmp - Function that compares two strings.
+ * @s1: type str compared
+ * @s2: type str compared
+ * Return: Always 0.
+ */
+int _strcmp(char *s1, char *s2)
 {
-	unsigned char st1, st2;
+	int i;
 
-	while (n-- > 0)
-	{
-		st1 = (unsigned char) *str1++;
-		st2 = (unsigned char) *str2++;
+	for (i = 0; s1[i] == s2[i] && s1[i]; i++)
+		;
 
-		if (st1 != st2)
-			return (st1 - st2);
-		if (st1 == '\0')
-			break;
-	}
+	if (s1[i] > s2[i])
+		return (1);
+	if (s1[i] < s2[i])
+		return (-1);
 	return (0);
 }
 /**
- * _strstr - Locates the first occurrence of the substring needle
- *           in the string haystack.
- * @haystack: The string to search in.
- * @needle: The substring to search for.
- *
- * Return: If needle is an empty string, haystack is returned;
- *         if needle occurs nowhere in haystack, NULL is returned;
- *         otherwise, a pointer to the beginning of the first occurrence
- *         of needle is returned.
+ * _strchr - locates a character in a string,
+ * @s: string.
+ * @c: character.
+ * Return: the pointer to the first occurrence of the character c.
  */
-char *_strstr(char *haystack, char *needle)
+char *_strchr(char *s, char c)
 {
-	int i, j;
+	unsigned int i = 0;
 
-	for (i = 0; haystack[i] != '\0'; i++)
-	{
-		if (haystack[i] == needle[0])
-		{
-			for (j = 0; needle[j] != '\0'; j++)
-			{
-				if (haystack[i + j] != needle[j])
-				{
-					break;
-				}
-			}
-
-			if (needle[j] == '\0')
-			{
-				return (&haystack[i]);
-			}
-		}
-	}
-
-	return (NULL);
+	for (; *(s + i) != '\0'; i++)
+		if (*(s + i) == c)
+			return (s + i);
+	if (*(s + i) == c)
+		return (s + i);
+	return ('\0');
 }
 /**
- * _strchr - function that finds a character in string
- * @str: a pointer to array of users input.
- * @c: character to be located in users input.
- * Return: initial occurrence of the char or null when not found.
-*/
-char *_strchr(char *str, char c)
+ * _strspn - gets the length of a prefix substring.
+ * @s: initial segment.
+ * @accept: accepted bytes.
+ * Return: the number of accepted bytes.
+ */
+int _strspn(char *s, char *accept)
 {
-	while (*str != '\0')
-	{
-		if (*str == c)
-			return (str);
-		str++;
-	}
-	return (NULL);
-}
+	int i, j, bool;
 
+	for (i = 0; *(s + i) != '\0'; i++)
+	{
+		bool = 1;
+		for (j = 0; *(accept + j) != '\0'; j++)
+		{
+			if (*(s + i) == *(accept + j))
+			{
+				bool = 0;
+				break;
+			}
+		}
+		if (bool == 1)
+			break;
+	}
+	return (i);
+}

@@ -1,104 +1,129 @@
-#include "sshell.h"
-/**
-* _strcpy - function that copies a string.
-* @dest: destination string
-* @src: source string
-* Return: pointer to the destination string
-*/
-char *_strcpy(char *dest, char *src)
-{
-	int t = 0;
+#include "main.h"
 
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[t])
+/**
+ * _strdup - duplicates a str in the heap memory.
+ * @s: Type char pointer str
+ * Return: duplicated str
+ */
+char *_strdup(const char *s)
+{
+	char *new;
+	size_t len;
+
+	len = _strlen(s);
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
+		return (NULL);
+	_memcpy(new, s, len + 1);
+	return (new);
+}
+
+/**
+ * _strlen - Returns the lenght of a string.
+ * @s: Type char pointer
+ * Return: Always 0.
+ */
+int _strlen(const char *s)
+{
+	int len;
+
+	for (len = 0; s[len] != 0; len++)
 	{
-		dest[t] = src[t];
-		t++;
 	}
-	dest[t] = 0;
-	return (dest);
+	return (len);
 }
+
 /**
-* _strcat - a function that concatinate 2 strings
-* @dest: buffer of destination string.
-* @src: buffer of source string.
-* Return: desination buffer's pointer.
-*/
-char *_strcat(char *dest, const char *src)
+ * cmp_chars - compare chars of strings
+ * @str: input string.
+ * @delim: delimiter.
+ *
+ * Return: 1 if are equals, 0 if not.
+ */
+int cmp_chars(char str[], const char *delim)
 {
-	char *tmp = dest;
+	unsigned int i, j, k;
 
-	while (*dest)
-		dest++;
-	while (*src)
-		*dest++ = *src++;
-
-	return (tmp);
-
-}
-/**
-* _strdup - function that duplicates a string.
-* @str: string to be duplicated
-* Return: pointer to the duplicated string, or NULL if insufficient memory
-*/
-char *_strdup(const char *str)
-{
-	size_t len = 0;
-	const char *ptr = str;
-	size_t i;
-	char *dup_str;
-
-	if (str == NULL)
-		return (NULL);
-
-	while (*ptr++ != '\0')
-		len++;
-
-	dup_str = (char *)malloc((len + 1) * sizeof(char));
-
-	if (dup_str == NULL)
-		return (NULL);
-
-	for (i = 0; i <= len; i++)
-		dup_str[i] = str[i];
-
-	return (dup_str);
-}
-/**
-* _putchar - writes a character to the standard output
-* @c: the character to be written
-* Return: On success, the number of characters written is returned.
-* On error, -1 is returned, and errno is set appropriately.
-*/
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-/**
-* _strspn - gets the length of a prefix substring
-* @str: pointer to the string to be checked
-* @accept: pointer to the substring prefix to look for
-*
-* Return: the number of bytes in the initial segment
-*/
-unsigned int _strspn(char *str, char *accept)
-{
-	unsigned int count, accept_index;
-
-	count = 0;
-
-	for (count = 0; str[count]; count++)
+	for (i = 0, k = 0; str[i]; i++)
 	{
-		for (accept_index = 0; accept[accept_index]; accept_index++)
+		for (j = 0; delim[j]; j++)
 		{
-			if (str[count] == accept[accept_index])
+			if (str[i] == delim[j])
+			{
+				k++;
 				break;
+			}
 		}
-
-		if (!accept[accept_index])
-			return (count);
 	}
+	if (i == k)
+		return (1);
+	return (0);
+}
 
-	return (count);
+/**
+ * _strtok - splits a string by some delimiter.
+ * @str: input string.
+ * @delim: delimiter.
+ *
+ * Return: string splited.
+ */
+char *_strtok(char str[], const char *delim)
+{
+	static char *splitted, *str_end;
+	char *str_start;
+	unsigned int i, bool;
+
+	if (str != NULL)
+	{
+		if (cmp_chars(str, delim))
+			return (NULL);
+		splitted = str; /*Store first address*/
+		i = _strlen(str);
+		str_end = &str[i]; /*Store last address*/
+	}
+	str_start = splitted;
+	if (str_start == str_end) /*Reaching the end*/
+		return (NULL);
+
+	for (bool = 0; *splitted; splitted++)
+	{
+		/*Breaking loop finding the next token*/
+		if (splitted != str_start)
+			if (*splitted && *(splitted - 1) == '\0')
+				break;
+		/*Replacing delimiter for null char*/
+		for (i = 0; delim[i]; i++)
+		{
+			if (*splitted == delim[i])
+			{
+				*splitted = '\0';
+				if (splitted == str_start)
+					str_start++;
+				break;
+			}
+		}
+		if (bool == 0 && *splitted) /*Str != Delim*/
+			bool = 1;
+	}
+	if (bool == 0) /*Str == Delim*/
+		return (NULL);
+	return (str_start);
+}
+
+/**
+ * _isdigit - defines if string passed is a number
+ *
+ * @s: input string
+ * Return: 1 if string is a number. 0 in other case.
+ */
+int _isdigit(const char *s)
+{
+	unsigned int i;
+
+	for (i = 0; s[i]; i++)
+	{
+		if (s[i] < 48 || s[i] > 57)
+			return (0);
+	}
+	return (1);
 }
